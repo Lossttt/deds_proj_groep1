@@ -22,5 +22,5 @@ Het repository is georganiseerd in verschillende mappen:
 
 1. **Kloon het Repository**:
    ```bash
-   git clone https://github.com/your-username/united-outdoors-project.git
-   cd united-outdoors-project
+   git clone https://github.com/Lossttt/deds_proj_groep1
+   cd deds_proj_groep1

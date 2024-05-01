@@ -12,6 +12,7 @@ pyodbc = "^5.1.0"
 loguru = "^0.7.2"
 scikit-learn = "^1.4.2"
 matplotlib = "^3.8.4"
+sqlalchemy = "^2.0.29"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -1,4 +1,4 @@
-# DEDS PROJECT
+# Data Engineering & Data Science PROJECT
 
 Dit project heeft als doel de data-infrastructuur te consolideren, machine learning-modellen te ontwikkelen en interactieve dashboards te creëren voor United Outdoors, een bedrijf dat actief is in de outdoor- en sportdetailhandel.
 

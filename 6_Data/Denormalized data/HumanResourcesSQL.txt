@@ -1,0 +1,129 @@
+- ADVENTUREWORKS - 
+
+HumanResources.Department
+- DepartmentID, Name, GroupName, ModifiedDate
+
+Department	DepartmentID	smallint
+Department	Name	nvarchar
+Department	GroupName	nvarchar
+Department	ModifiedDate	datetime
+
+HumanResources.Employee
+- BusinessEntityID, NationalIDNumber, LoginID, OrganizationNode, OrganizationLevel, JobTitle, BirthDate, MaritalStatus, Gender, HireDate, SalariedFlag, VacationHours, SickLeaveHours, CurrentFlag, rowguid, ModifiedDate
+
+Employee	BusinessEntityID	int
+Employee	NationalIDNumber	nvarchar
+Employee	LoginID	nvarchar
+Employee	OrganizationNode	hierarchyid
+Employee	OrganizationLevel	smallint
+Employee	JobTitle	nvarchar
+Employee	BirthDate	date
+Employee	MaritalStatus	nchar
+Employee	Gender	nchar
+Employee	HireDate	date
+Employee	SalariedFlag	bit
+Employee	VacationHours	smallint
+Employee	SickLeaveHours	smallint
+Employee	CurrentFlag	bit
+Employee	rowguid	uniqueidentifier
+Employee	ModifiedDate	datetime
+
+HumanResources.EmployeeDepartmentHistory:
+- BusinessEntityID, DepartmentID, ShiftID, StartDate,EndDate, ModifiedDate
+
+EmployeeDepartmentHistory	BusinessEntityID	int
+EmployeeDepartmentHistory	DepartmentID	smallint
+EmployeeDepartmentHistory	ShiftID	tinyint
+EmployeeDepartmentHistory	StartDate	date
+EmployeeDepartmentHistory	EndDate	date
+EmployeeDepartmentHistory	ModifiedDate	datetime
+
+HumanResources.EmployeePayHistory:
+- BusinessEntityID, RateChangeDate, Rate, PayFrequency, ModifiedDate
+
+EmployeePayHistory	BusinessEntityID	int
+EmployeePayHistory	RateChangeDate	datetime
+EmployeePayHistory	Rate	money
+EmployeePayHistory	PayFrequency	tinyint
+EmployeePayHistory	ModifiedDate	datetime
+
+HumanResources.JobCandidate:
+- JobCandidateID, BusinessEntityID, Resume, ModifiedDate
+
+JobCandidate	JobCandidateID	int
+JobCandidate	BusinessEntityID	int
+JobCandidate	Resume	xml
+JobCandidate	ModifiedDate	datetime
+
+HumanResources.Shift:
+- ShiftID, Name, StartTime, EndTime, ModifiedDate
+
+Shift	ShiftID	tinyint
+Shift	Name	nvarchar
+Shift	StartTime	time
+Shift	EndTime	time
+Shift	ModifiedDate	datetime
+
+
+-- SQL CODE --
+
+ALTER TABLE EmployeeData
+DROP CONSTRAINT PK__Employee__8898433784D0AEC0;
+
+-- CREATE TABLE voor denormaliseerde EmployeeData tabel
+CREATE TABLE EmployeeData (
+    BusinessEntityID INT PRIMARY KEY,
+    NationalIDNumber NVARCHAR(50),
+    LoginID NVARCHAR(50),
+    OrganizationNode HIERARCHYID,
+    OrganizationLevel SMALLINT,
+    JobTitle NVARCHAR(100),
+    BirthDate DATE,
+    MaritalStatus NCHAR(1),
+    Gender NCHAR(1),
+    HireDate DATE,
+    SalariedFlag BIT,
+    VacationHours SMALLINT,
+    SickLeaveHours SMALLINT,
+    CurrentFlag BIT,
+    DepartmentID SMALLINT,
+    DepartmentName NVARCHAR(100),
+    GroupName NVARCHAR(100),
+    ShiftID TINYINT,
+    ShiftName NVARCHAR(100),
+    StartTime TIME,
+    EndTime TIME,
+    RateChangeDate DATETIME,
+    Rate MONEY,
+    PayFrequency TINYINT,
+    Resume XML,
+    ModifiedDate DATETIME
+);
+
+INSERT INTO EmployeeData (
+    BusinessEntityID, NationalIDNumber, LoginID, OrganizationNode, OrganizationLevel,
+    JobTitle, BirthDate, MaritalStatus, Gender, HireDate, SalariedFlag,
+    VacationHours, SickLeaveHours, CurrentFlag, DepartmentID, DepartmentName,
+    GroupName, ShiftID, ShiftName, StartTime, EndTime, RateChangeDate,
+    Rate, PayFrequency, Resume, ModifiedDate
+)
+SELECT
+    e.BusinessEntityID, e.NationalIDNumber, e.LoginID, e.OrganizationNode,
+    e.OrganizationLevel, e.JobTitle, e.BirthDate, e.MaritalStatus, e.Gender,
+    e.HireDate, e.SalariedFlag, e.VacationHours, e.SickLeaveHours, e.CurrentFlag,
+    edh.DepartmentID, d.Name AS DepartmentName, d.GroupName,
+    edh.ShiftID, s.Name AS ShiftName, s.StartTime, s.EndTime,
+    eph.RateChangeDate, eph.Rate, eph.PayFrequency,
+    jc.Resume, e.ModifiedDate
+FROM
+    HumanResources.Employee e
+JOIN
+    HumanResources.EmployeeDepartmentHistory edh ON e.BusinessEntityID = edh.BusinessEntityID
+JOIN
+    HumanResources.Department d ON edh.DepartmentID = d.DepartmentID
+JOIN
+    HumanResources.Shift s ON edh.ShiftID = s.ShiftID
+LEFT JOIN
+    HumanResources.EmployeePayHistory eph ON e.BusinessEntityID = eph.BusinessEntityID
+LEFT JOIN
+    HumanResources.JobCandidate jc ON e.BusinessEntityID = jc.BusinessEntityID;

@@ -1,0 +1,124 @@
+- ADVENTUREWORKS -
+
+Sales.Orders ( dubbele data? )
+- SalesReasonID, Name, ReasonType, ModifiedDate, SalesOrderID, RevisionNumber, OrderDate, DueDate, ShipDate, Status, OnlineOrderFlag,
+SalesOrderNumber, PurchaseOrderNumber, AccountNumber, CustomerID, TerritoryID, BillToAddressID, ShipToAddressID, ShipMethodID, 
+CreditCardID, CreditCardApprovalCode, CurrencyRateId, SubTotal, TaxAmt, Freight, TotalDue, rowguid, CarrierTrackingNumber, OrderQty,
+ProductID, SpecialOfferID, UnitPrice, UnitPriceDiscount, LineTotal. 
+
+Sales.TerritoryAndCurrency
+- BusinessEntityID, TerritoryID, StartDate, EndDate, rowguid, ModifiedDate, Name, CountryRegionCode, Group, SalesYTD, SalesLastYear, 
+CostYTD, CostLastYear, CurrencyCode, Name
+
+Sales.Person
+Gotta fix an error here
+
+Sales.SpecialOffers
+- SpecialOfferID, ProductID, rowguid, ModifiedDate, Description, DiscountPct, Type, Category, StartDate, EndDate, MinQty, MaxQty
+
+Sales.Taxes
+- SalesTaxRateID, StateProvinceID, TaxType, TaxRate, Name, rowguid, ModifiedDate
+
+Sales.Customer
+- CustomerID, PersonID, StoreID, TerritoryID, AccountNumber, rowguid, ModifiedDate
+-- Create Sales.Orders table
+
+
+CREATE TABLE Sales.Orders (
+    SalesReasonID INT,
+    Name VARCHAR(255),
+    ReasonType VARCHAR(255),
+    ModifiedDate DATETIME,
+    SalesOrderID INT,
+    RevisionNumber INT,
+    OrderDate DATETIME,
+    DueDate DATETIME,
+    ShipDate DATETIME,
+    Status VARCHAR(255),
+    OnlineOrderFlag BIT,
+    SalesOrderNumber VARCHAR(255),
+    PurchaseOrderNumber VARCHAR(255),
+    AccountNumber VARCHAR(255),
+    CustomerID INT,
+    TerritoryID INT,
+    BillToAddressID INT,
+    ShipToAddressID INT,
+    ShipMethodID INT,
+    CreditCardID INT,
+    CreditCardApprovalCode VARCHAR(255),
+    CurrencyRateId INT,
+    SubTotal DECIMAL(18, 2),
+    TaxAmt DECIMAL(18, 2),
+    Freight DECIMAL(18, 2),
+    TotalDue DECIMAL(18, 2),
+    rowguid UNIQUEIDENTIFIER,
+    CarrierTrackingNumber VARCHAR(255),
+    OrderQty INT,
+    ProductID INT,
+    SpecialOfferID INT,
+    UnitPrice DECIMAL(18, 2),
+    UnitPriceDiscount DECIMAL(18, 2),
+    LineTotal DECIMAL(18, 2)
+);
+
+-- Create Sales.TerritoryAndCurrency table
+CREATE TABLE Sales.TerritoryAndCurrency (
+    BusinessEntityID INT,
+    TerritoryID INT,
+    StartDate DATETIME,
+    EndDate DATETIME,
+    rowguid UNIQUEIDENTIFIER,
+    ModifiedDate DATETIME,
+    Name VARCHAR(255),
+    CountryRegionCode VARCHAR(255),
+    Group VARCHAR(255),
+    SalesYTD DECIMAL(18, 2),
+    SalesLastYear DECIMAL(18, 2),
+    CostYTD DECIMAL(18, 2),
+    CostLastYear DECIMAL(18, 2),
+    CurrencyCode VARCHAR(255),
+    Name VARCHAR(255)
+);
+
+-- Create Sales.Person table
+CREATE TABLE Sales.Person (
+    -- Add column definitions here
+);
+
+-- Create Sales.SpecialOffers table
+CREATE TABLE Sales.SpecialOffers (
+    SpecialOfferID INT,
+    ProductID INT,
+    rowguid UNIQUEIDENTIFIER,
+    ModifiedDate DATETIME,
+    Description VARCHAR(255),
+    DiscountPct DECIMAL(18, 2),
+    Type VARCHAR(255),
+    Category VARCHAR(255),
+    StartDate DATETIME,
+    EndDate DATETIME,
+    MinQty INT,
+    MaxQty INT
+);
+
+-- Create Sales.Taxes table
+CREATE TABLE Sales.Taxes (
+    SalesTaxRateID INT,
+    StateProvinceID INT,
+    TaxType VARCHAR(255),
+    TaxRate DECIMAL(18, 2),
+    Name VARCHAR(255),
+    rowguid UNIQUEIDENTIFIER,
+    ModifiedDate DATETIME
+);
+
+-- Create Sales.Customer table
+CREATE TABLE Sales.Customer (
+    CustomerID INT,
+    PersonID INT,
+    StoreID INT,
+    TerritoryID INT,
+    AccountNumber VARCHAR(255),
+    rowguid UNIQUEIDENTIFIER,
+    ModifiedDate DATETIME
+);

@@ -20,7 +20,7 @@ Het repository is georganiseerd in verschillende mappen:
 
 ## Installatie-instructies
 
-1. **Kloon het Repository**:
+1. **Kloon de repository**:
    ```bash
    git clone https://github.com/Lossttt/deds_proj_groep1
    cd deds_proj_groep1

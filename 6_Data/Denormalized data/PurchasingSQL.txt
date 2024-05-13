@@ -1,0 +1,147 @@
+-- PURCHASING --
+
+
+Purchasing.Vendor
+    - BusinessEntityID (int)
+    - AccountNumber (nvarchar)
+    - Name (nvarchar)
+    - CreditRating (tinyint)
+    - PreferredVendorStatus (bit)
+    - ActiveFlag (bit)
+    - PurchasingWebServiceURL (nvarchar)
+    - ModifiedDate (datetime)
+
+Purchasing.ShipMethod
+    - ShipMethodID (int)
+    - Name	(nvarchar)
+    - ShipBase	(money)
+    - ShipRate	(money)
+    - rowguid	(uniqueidentifier)
+    - ModifiedDate	(datetime)
+
+Purchasing.PurchaseOrderHeader
+    - PurchaseOrderID	int
+    - RevisionNumber	tinyint
+    - Status	tinyint
+    - EmployeeID	int
+    - VendorID	int
+    - ShipMethodID	int
+    - OrderDate	datetime
+    - ShipDate	datetime
+    - SubTotal	money
+    - TaxAmt	money
+    - Freight	money
+    - TotalDue	money
+    - ModifiedDate	datetime
+
+Purchasing.PurchaseOrderDetail
+    - PurchaseOrderID	int
+    - PurchaseOrderDetailID	int
+    - DueDate	datetime
+    - OrderQty	smallint
+    - ProductID	int
+    - UnitPrice	money
+    - LineTotal	money
+    - ReceivedQty	decimal
+    - RejectedQty	decimal
+    - StockedQty	decimal
+    - ModifiedDate	datetime
+
+-- SQL CODE --
+
+CREATE TABLE PurchaseOrderData (
+    PurchaseOrderID int,
+    RevisionNumber tinyint,
+    Status tinyint,
+    EmployeeID int,
+    VendorID int,
+    VendorName nvarchar(255),
+    AccountNumber nvarchar(50),
+    CreditRating tinyint,
+    PreferredVendorStatus bit,
+    ShipMethodID int,
+    ShipMethodName nvarchar(255),
+    OrderDate datetime,
+    ShipDate datetime,
+    SubTotal money,
+    TaxAmt money,
+    Freight money,
+    TotalDue money,
+    PurchaseOrderDetailID int,
+    DueDate datetime,
+    OrderQty smallint,
+    ProductID int,
+    UnitPrice money,
+    LineTotal money,
+    ReceivedQty decimal,
+    RejectedQty decimal,
+    StockedQty decimal,
+    ModifiedDate datetime,
+    PRIMARY KEY (PurchaseOrderID, PurchaseOrderDetailID) -- Deze samengestelde sleutel is uniek!
+);
+
+INSERT INTO PurchaseOrderData (
+    PurchaseOrderID,
+    RevisionNumber,
+    Status,
+    EmployeeID,
+    VendorID,
+    VendorName,
+    AccountNumber,
+    CreditRating,
+    PreferredVendorStatus,
+    ShipMethodID,
+    ShipMethodName,
+    OrderDate,
+    ShipDate,
+    SubTotal,
+    TaxAmt,
+    Freight,
+    TotalDue,
+    PurchaseOrderDetailID,
+    DueDate,
+    OrderQty,
+    ProductID,
+    UnitPrice,
+    LineTotal,
+    ReceivedQty,
+    RejectedQty,
+    StockedQty,
+    ModifiedDate
+)
+SELECT
+    h.PurchaseOrderID,
+    h.RevisionNumber,
+    h.Status,
+    h.EmployeeID,
+    h.VendorID,
+    v.Name AS VendorName,
+    v.AccountNumber,
+    v.CreditRating,
+    v.PreferredVendorStatus,
+    h.ShipMethodID,
+    s.Name AS ShipMethodName,
+    h.OrderDate,
+    h.ShipDate,
+    h.SubTotal,
+    h.TaxAmt,
+    h.Freight,
+    h.TotalDue,
+    d.PurchaseOrderDetailID,
+    d.DueDate,
+    d.OrderQty,
+    d.ProductID,
+    d.UnitPrice,
+    d.LineTotal,
+    d.ReceivedQty,
+    d.RejectedQty,
+    d.StockedQty,
+    d.ModifiedDate
+FROM
+    Purchasing.PurchaseOrderHeader h
+INNER JOIN
+    Purchasing.Vendor v ON h.VendorID = v.BusinessEntityID
+INNER JOIN
+    Purchasing.ShipMethod s ON h.ShipMethodID = s.ShipMethodID
+INNER JOIN
+    Purchasing.PurchaseOrderDetail d ON h.PurchaseOrderID = d.PurchaseOrderID;

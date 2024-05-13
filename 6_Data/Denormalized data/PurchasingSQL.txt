@@ -1,5 +1,6 @@
 -- PURCHASING --
 
+
 Purchasing.Vendor
     - BusinessEntityID (int)
     - AccountNumber (nvarchar)

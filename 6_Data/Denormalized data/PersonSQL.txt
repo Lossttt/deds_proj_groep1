@@ -1,0 +1,82 @@
+person nieuwe tabels
+
+BusinessEntity pk BusinessEntity
+-Person.BusinessEntity -> BusinessEnityID
+
+PersonInfo pk BusinessEntityID
+-person.person -> BusinessEntityID PersonType
+-person.EmailAddress -> BusinessEntityID EmailAdressID
+-person.Password -> BusinessEnityID
+
+PersonContact pk BusinessEntity
+-person.personPhone -> BusinessEnityID PhoneNumberTypeID
+-person.phoneNumberType -> PhoneNumberTypeID
+-Person.BusinessEntityContact -> BusinessEnityID PersonID ContactTypeID
+-person.ContactType -> ContactTypeID
+
+AddressInfo pk BusinessEntityID
+-Person.BusinessEntityAdress -> BusinessEntityID AdressID AdressTypeID
+-person.Adress -> AddressID StateProvinceID
+-person.AddressType -> AddressTypeID
+-person.Stateprovince -> StateProvinceID CountryRegionCode
+-person.CountryRegion -> CountryRegionCode
+
+SQL voor het maken van de nieuwe person tables: 
+
+CREATE TABLE BusinessEntity (
+    BusinessEntityID int PRIMARY KEY,
+    rowguid uniqueidentifier,
+    ModifiedDate datetime
+);
+
+CREATE TABLE PersonInfo (
+    BusinessEntityID int PRIMARY KEY,
+    PersonType nchar(1),
+    NameStyle bit,
+    Title nvarchar(max),
+    FirstName nvarchar(max),
+    MiddleName nvarchar(max),
+    LastName nvarchar(max),
+    Suffix nvarchar(max),
+    EmailPromotion int,
+    AdditionalContactInfo xml,
+    Demographics xml,
+    EmailAddressID int,
+    EmailAddress nvarchar(max),
+    PasswordHash varchar(max),
+    PasswordSalt varchar(max),
+    rowguid uniqueidentifier,
+    ModifiedDate datetime
+);
+
+
+CREATE TABLE PersonContact (
+    BusinessEntityID int PRIMARY KEY,
+    PhoneNumber nvarchar(max),
+    PhoneNumberTypeID int,
+    PhoneNumberName nvarchar(max),
+    ContactTypeID int,
+    ContactTypeName nvarchar(max),
+    PersonID int,
+    rowguid uniqueidentifier,
+    ModifiedDate datetime,
+);
+
+CREATE TABLE AddressInfo (
+    BusinessEntityID int PRIMARY KEY,
+    AddressID int,
+    AddressTypeID int,
+    AddressLine1 nvarchar(max),
+    AddressLine2 nvarchar(max),
+    City nvarchar(max),
+    StateProvinceID int,
+    PostalCode nvarchar(max),
+    SpatialLocation geography,
+    Name nvarchar(max),
+    StateProvinceCode nchar(2),
+    CountryRegionCode nvarchar(max),
+    IsOnlyStateProvinceFlag bit,
+    TerritoryID int,
+    rowguid uniqueidentifier,
+    ModifiedDate datetime
+);

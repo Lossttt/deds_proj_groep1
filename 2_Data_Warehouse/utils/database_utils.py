@@ -13,15 +13,9 @@ def create_connection(database_name):
 
 def run_query(query, database_name):
     conn, cursor = create_connection(database_name)
-    try:
-        if conn is not None and cursor is not None:
-            df = pd.read_sql(query, conn)
-            return df
-        else:
-            return None
-    except pd.DatabaseError as e:
-        print(f"Error occurred while running SQL query: {e}")
-        return None
-    finally:
-        if conn is not None:
-            conn.close()
+    if "SELECT" in query.upper():
+        df = pd.read_sql(query, conn)
+        return df
+    else:
+        cursor.execute(query)
+        conn.commit()

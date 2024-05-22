@@ -8,10 +8,9 @@ import os
 dir_path = pathlib.Path(__file__).parent.absolute()
 load_dotenv(dotenv_path=dir_path / '.env')
 
-
 def create_connectionLocal(database_name):
     try:
-        DB = {'servername': r'HP-SPECTRE\SQLEXPRESS', 'database': database_name}
+        DB = {'servername': r'DESKTOP-VO226NG\SQLEXPRESS01', 'database': database_name}
         export_conn = pyodbc.connect('DRIVER={SQL Server};SERVER=' + DB['servername'] + ';DATABASE=' + DB['database'] + ';Trusted_Connection=yes')
         export_cursor = export_conn.cursor()
         return export_conn, export_cursor

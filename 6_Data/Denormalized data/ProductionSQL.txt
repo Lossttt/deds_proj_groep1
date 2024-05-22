@@ -1,29 +1,4 @@
-//ProductionWorkOrder(production.ScrapReason, production.WorkOrder, Production.WorkorderRouting)
 
-SQLcode voor het maken van de ProductionWorkOrder tabel:
-
-CREATE TABLE Production.WorkOrder (
-    ScrapReasonID INT PRIMARY KEY,           
-    Name VARCHAR(255),                       
-    ModifiedDate DATETIME,                   
-    WorkOrderID INT,                         
-    ProductID INT,                           
-    OrderQty INT,                            
-    StockedQty INT,                          
-    ScrappedQty INT,                         
-    StartDate DATETIME,                      
-    EndDate DATETIME,                        
-    DueDate DATETIME,                        
-    OperationSequence INT,                   
-    LocationID INT,                          
-    ScheduledStartDate DATETIME,             
-    ScheduledEndDate DATETIME,               
-    ActualStartDate DATETIME,                
-    ActualEndDate DATETIME,                  
-    ActualResourceHrs FLOAT,                 
-    PlannedCost DECIMAL(18, 2),              
-    ActualCost DECIMAL(18, 2)                
-);
 
 
 
@@ -86,68 +61,10 @@ CREATE TABLE Production.Product (
 
 
 
-//Production.productPhoto: (Production.ProductPhoto, Production.ProductProductPhoto )
-SQL code voor het maken van de ProductionPhoto tabel:
-CREATE TABLE Production.ProductPhoto (
-    ProductPhotoID INT PRIMARY KEY,
-    ThumbNailPhoto VARBINARY(MAX),
-    ThumbnailPhotoFileName VARCHAR(255),
-    LargePhoto VARBINARY(MAX),
-    LargePhotoFileName VARCHAR(255),
-    ModifiedDate DATETIME
-);
 
 
 
 
-//Production.BillOfMaterials: (production.BillOfMaterials, Production.UnitMeasure)
-SQL code voor het maken van de Production.BillOfMaterials tabel:
-CREATE TABLE Production.BillOfMaterials (
-    BillOfMaterialsID INT,
-    ProductAssemblyID INT,
-    ComponentID INT,
-    StartDate DATETIME,
-    EndDate DATETIME,
-    UnitMeasureCode NCHAR(3) PRIMARY KEY,
-    BOMLevel INT,
-    PerAssemblyQty DECIMAL(18, 4),
-    ModifiedDate DATETIME,
-    Name VARCHAR(255)
-);
 
-
-
-//Production.ProductInventory: (Production.Inventory, Production.Location)
-SQL code voor het maken van de Production.ProductInventory tabel:
-CREATE TABLE Production.ProductInventory (
-    ProductID INT,
-    LocationID INT,
-    Shelf VARCHAR(10),
-    Bin INT,
-    Quantity INT,
-    rowguid UNIQUEIDENTIFIER,
-    ModifiedDate DATETIME,
-    Name VARCHAR(255),
-    CostRate DECIMAL(18, 2),
-    Availability INT,
-    PRIMARY KEY (ProductID, LocationID)
-);
-
-
-
-
-//Production.productModel(Production.ProductModel, production.ProductModelIllustration, production.ProductModelProductDescriptionCulture )
-SQL code voor het maken van de Production.ProductModel tabel:
-CREATE TABLE Production.ProductModel (
-    ProductModelID INT PRIMARY KEY,
-    Name VARCHAR(255),
-    CatalogDescription NVARCHAR(MAX),
-    Instructions NVARCHAR(MAX),
-    rowguid UNIQUEIDENTIFIER,
-    ModifiedDate DATETIME,
-    IllustrationID INT,
-    ProductDescriptionID INT,
-    CultureID NCHAR(6)
-);
 
 
